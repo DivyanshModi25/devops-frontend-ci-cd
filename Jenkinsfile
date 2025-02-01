@@ -17,7 +17,8 @@ pipeline {
             }
             steps {
                 sh '''
-                    ls -a                    
+                    ls -a
+                    pwd                    
                 '''
             }
         }        
