@@ -5,7 +5,7 @@ pipeline {
         stage('docker debug'){
             steps {
                 sh ''' 
-                    echo("debuged something")
+                    echo debuged something
                 '''
             }
         }
