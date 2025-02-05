@@ -3,6 +3,7 @@ pipeline {
 
     environment{
         DOCKER_IMAGE="techsavvydivyansh/react-app-cicd"
+        DOCKER_TAG="latest"
     }
 
     stages {
@@ -13,11 +14,22 @@ pipeline {
                 '''
             }
         }
+
+        stage('Login to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASS')]) {
+                    sh 'echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin'
+                }
+
+            }  
+        }
+
         stage('build docker image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:latest .'
+                sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
             }
         } 
+
                
     }
 
