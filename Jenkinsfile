@@ -30,6 +30,12 @@ pipeline {
             }
         } 
 
+        stage ('push image to docker hub') {
+            steps {
+                  sh 'docker push $DOCKER_IMAGE:latest'
+            }
+        }
+
                
     }
 
