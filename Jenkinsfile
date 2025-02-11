@@ -15,14 +15,6 @@ pipeline {
             }
         }
 
-        // stage ('run test') {
-        //     steps {
-        //         sh '''
-        //             npm i 
-        //             npm test
-        //         '''
-        //     }
-        // }
 
         stage('Login to Docker Hub') {
             steps {
