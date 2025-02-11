@@ -15,6 +15,15 @@ pipeline {
             }
         }
 
+        stage ('run test') {
+            steps {
+                sh '''
+                    npm i 
+                    npm test
+                '''
+            }
+        }
+
         stage('Login to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASS')]) {
