@@ -35,29 +35,29 @@ pipeline {
             }
         }
 
-        stage('Terraform Init , Apply') {
-            steps {
-                withCredentials([
-                    string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
-                    string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY')
-                ]) {
-                    sh '''
-                        export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-                        export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-                        cd terraform
-                        terraform init
-                        terraform apply -auto-approve
-                    '''
-                }
-            }
-        }
+        // stage('Terraform Init , Apply') {
+        //     steps {
+        //         withCredentials([
+        //             string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
+        //             string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY')
+        //         ]) {
+        //             sh '''
+        //                 export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+        //                 export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+        //                 cd terraform
+        //                 terraform init
+        //                 terraform apply -auto-approve
+        //             '''
+        //         }
+        //     }
+        // }
 
 
 
         stage('Deploy New Docker Image to EC2') {
             steps {
                 script {
-                    def ec2_ip = sh(script: "cd terraform && terraform output -raw server_public_ip", returnStdout: true).trim()
+                    def ec2_ip = '3.238.164.13'
 
                     echo "Deploying new Docker image to EC2 at: $ec2_ip"
 

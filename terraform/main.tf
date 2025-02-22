@@ -14,8 +14,8 @@ data "aws_subnet" "default" {
 }
 
 # Create a security group to allow HTTP & SSH access
-resource "aws_security_group" "allow_web" {
-  name        = "allow_web_traffic"
+resource "aws_security_group" "allow_web_sg" {
+  name        = "allow_web_sg_traffic"
   description = "Allow web traffic (HTTP) and SSH"
   vpc_id      = data.aws_vpc.default.id
 
@@ -46,7 +46,7 @@ resource "aws_instance" "web_server" {
   ami                    = "ami-04b4f1a9cf54c11d0"  # Ubuntu 22.04 AMI for us-east-1
   instance_type          = "t2.micro"
   subnet_id              = data.aws_subnet.default.id
-  security_groups        = [aws_security_group.allow_web.id]
+  security_groups        = [aws_security_group.allow_web_sg.id]
   associate_public_ip_address = true
   key_name               = "EC2Tutorial"  # Replace with your key pair name
 
@@ -63,7 +63,7 @@ resource "aws_instance" "web_server" {
               EOF
 
   tags = {
-    Name = "SimpleWebServer"
+    Name = "WebServer"
   }
 }
 
