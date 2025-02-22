@@ -54,7 +54,7 @@ pipeline {
 
 
 
-        stage('Deploy New Docker Image to EC2') {
+         stage('Deploy New Docker Image to EC2') {
             steps {
                 script {
                     def ec2_ip = '3.238.164.13'
@@ -62,15 +62,17 @@ pipeline {
                     echo "Deploying new Docker image to EC2 at: $ec2_ip"
 
                     withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY')]) {
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip "docker pull $DOCKER_IMAGE:$DOCKER_TAG"
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip "docker stop app || true"
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip "docker rm app || true"
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip "docker run -d -p 80:80 --name app $DOCKER_IMAGE:$DOCKER_TAG"
-
+                        sh """
+                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip <<-EOF
+                            docker pull $DOCKER_IMAGE:$DOCKER_TAG
+                            docker stop app || true
+                            docker rm app || true
+                            docker run -d -p 80:80 --name app $DOCKER_IMAGE:$DOCKER_TAG
+                        EOF
+                        """
                     }
                 }
             }
-        }
 
     }
 
