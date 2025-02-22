@@ -41,12 +41,13 @@ pipeline {
             steps {
                 
                    withEnv(["AWS_PROFILE=default"]) {
-                    sh '''
-                        cd terraform
-                        terraform init
-                        terraform apply -auto-approve
-                    '''
-                        }
+                        sh '''
+                            cd terraform
+                            terraform init
+                            terraform apply -auto-approve
+                        '''
+                    }
+                }
         }
 
                
