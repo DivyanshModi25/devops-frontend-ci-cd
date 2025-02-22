@@ -1,6 +1,5 @@
 provider "aws" {
   region  = "us-east-1"
-  profile = "default"  # Uses the default AWS CLI profile
 }
 
 # Get the default VPC
