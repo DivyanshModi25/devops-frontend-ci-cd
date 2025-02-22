@@ -35,7 +35,7 @@ pipeline {
             }
         }
 
-        stage('Terraform Init , Apply and deploy') {
+        stage('Terraform Init , Apply') {
             steps {
                 withCredentials([
                     string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
@@ -48,6 +48,29 @@ pipeline {
                         terraform init
                         terraform apply -auto-approve
                     '''
+                }
+            }
+        }
+
+
+
+        stage('Deploy New Docker Image to EC2') {
+            steps {
+                script {
+                    def ec2_ip = sh(script: "cd terraform && terraform output -raw server_public_ip", returnStdout: true).trim()
+
+                    echo "Deploying new Docker image to EC2 at: $ec2_ip"
+
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY')]) {
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip << 'EOF'
+                                docker pull $DOCKER_IMAGE:$DOCKER_TAG
+                                docker stop app || true
+                                docker rm app || true
+                                docker run -d -p 80:80 --name app $DOCKER_IMAGE:$DOCKER_TAG
+                            EOF
+                        """
+                    }
                 }
             }
         }
