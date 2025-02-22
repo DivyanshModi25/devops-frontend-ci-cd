@@ -62,14 +62,11 @@ pipeline {
                     echo "Deploying new Docker image to EC2 at: $ec2_ip"
 
                     withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY')]) {
-                        sh """
-                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip << EOF
-                                docker pull $DOCKER_IMAGE:$DOCKER_TAG
-                                docker stop app || true
-                                docker rm app || true
-                                docker run -d -p 80:80 --name app $DOCKER_IMAGE:$DOCKER_TAG
-                            EOF
-                        """
+                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip "docker pull $DOCKER_IMAGE:$DOCKER_TAG"
+                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip "docker stop app || true"
+                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip "docker rm app || true"
+                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip "docker run -d -p 80:80 --name app $DOCKER_IMAGE:$DOCKER_TAG"
+
                     }
                 }
             }
