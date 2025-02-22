@@ -60,8 +60,6 @@ resource "aws_instance" "web_server" {
                 # Add ubuntu user to docker group to run without sudo
                 sudo usermod -aG docker ubuntu
 
-                # Run an Nginx container
-                sudo docker run -d -p 80:80 --name nginx-server techsavvydivyansh/react-app-cicd:latest
               EOF
 
   tags = {
