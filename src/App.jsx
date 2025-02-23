@@ -22,6 +22,7 @@ function App() {
           count is {count} 🥳 
         </button>
         <p>Hello divyansh modi here</p>
+        <p>I am pursuing computer engineering</p>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
