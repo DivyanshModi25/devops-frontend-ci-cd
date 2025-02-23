@@ -71,8 +71,9 @@ pipeline {
 
                                 echo "Running new container..."
                                 docker run -d -p 80:80 --name app $DOCKER_IMAGE:$DOCKER_TAG
-                            EOF
-                            """
+                            'EOF'
+                        
+                        """
                     }
                 }
             }
