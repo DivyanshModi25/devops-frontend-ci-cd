@@ -61,17 +61,18 @@ pipeline {
 
                     withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY')]) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip << 'EOF'
-                                echo "Pulling Docker Image..."
-                                docker pull $DOCKER_IMAGE:$DOCKER_TAG
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@$ec2_ip << EOF
+    echo "Pulling Docker Image..."
+    docker pull $DOCKER_IMAGE:$DOCKER_TAG
 
-                                echo "Stopping old container (if exists)..."
-                                docker stop app || true
-                                docker rm app || true
+    echo "Stopping old container (if exists)..."
+    docker stop app || true
+    docker rm app || true
 
-                                echo "Running new container..."
-                                docker run -d -p 80:80 --name app $DOCKER_IMAGE:$DOCKER_TAG
-                            'EOF'
+    echo "Running new container..."
+    docker run -d -p 80:80 --name app $DOCKER_IMAGE:$DOCKER_TAG
+    echo "container is live and running"
+EOF
                         
                         """
                     }
