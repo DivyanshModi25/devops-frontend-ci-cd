@@ -23,6 +23,8 @@ function App() {
         </button>
         <p>Hello divyansh modi here</p>
         <p>I am pursuing computer engineering</p>
+        <p>I love exploring different domains</p>
+        <p>I like videogaphy</p>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
