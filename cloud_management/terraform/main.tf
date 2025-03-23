@@ -50,17 +50,17 @@ resource "aws_instance" "web_server" {
   associate_public_ip_address = true
   key_name               = var.key_name  # Replace with your key pair name
 
-  # user_data = <<-EOF
-  #               #!/bin/bash
-  #               sudo apt update -y
-  #               sudo apt install -y docker.io
-  #               sudo systemctl enable docker
-  #               sudo systemctl start docker
+  user_data = <<-EOF
+                #!/bin/bash
+                sudo apt update -y
+                sudo apt install -y docker.io
+                sudo systemctl enable docker
+                sudo systemctl start docker
 
-  #               # Add ubuntu user to docker group to run without sudo
-  #               sudo usermod -aG docker ubuntu
+                # Add ubuntu user to docker group to run without sudo
+                sudo usermod -aG docker ubuntu
 
-  #             EOF
+              EOF
 
   tags = {
     Name = "WebServer"
