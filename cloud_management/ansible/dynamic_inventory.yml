@@ -1,0 +1,4 @@
+all:
+  hosts:
+    ec2_instance:
+      ansible_host: 34.205.43.157
