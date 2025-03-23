@@ -55,7 +55,7 @@ pipeline {
         stage('Deploy New Docker Image to EC2') {
             steps {
                 script {
-                    def ec2_ip = '34.205.43.157'
+                    def ec2_ip = '44.215.112.177'
 
                     echo "Deploying new Docker image to EC2 at: $ec2_ip"
 
