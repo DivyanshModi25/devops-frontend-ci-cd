@@ -30,7 +30,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more this is the new version 20..000000000000000000000
+        Click on the Vite and React logos to learn more this is the new version 2.0
       </p>
     </>
   )
