@@ -31,3 +31,7 @@ terraform.tfstate
 terraform.tfstate.backup
 
 *.pem
+
+*/venv
+*/__pycache__
+*/.env
