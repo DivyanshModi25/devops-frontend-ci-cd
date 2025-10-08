@@ -1,11 +1,11 @@
 variable "region" {
   description = "AWS Region"
-  default     = "us-east-1"
+  default     = "ap-south-1"
 }
 
 variable "availability_zone" {
   description = "Availability zone"
-  default     = "us-east-1a"
+  default     = "ap-south-1a"
 }
 
 variable "instance_type" {
@@ -19,4 +19,9 @@ variable "ami_id" {
 
 variable "key_name" {
   description = "SSH Key Pair name for EC2"
+}
+
+
+variable "profile" {
+  description = "aws account with which i need to connect"
 }
