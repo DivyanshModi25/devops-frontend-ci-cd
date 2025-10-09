@@ -24,6 +24,28 @@ class JenkinsJob(BaseModel):
 
 
 
+
+# list all jenkins project
+@app.get("/jobs", operation_id="list_jenkins_jobs", summary="List all Jenkins jobs")
+def list_jenkins_jobs():
+    """Lists all available Jenkins jobs (projects)."""
+    url = f"{JENKINS_URL}/api/json"
+    r = requests.get(url, auth=(JENKINS_USER, JENKINS_TOKEN))
+
+    if r.status_code != 200:
+        raise HTTPException(status_code=r.status_code, detail=f"Failed to fetch projects: {r.text}")
+    
+    data = r.json()
+    jobs = [
+        {"name": job["name"], "url": job["url"], "status_color": job.get("color")}
+        for job in data.get("jobs", [])
+    ]
+    return {"count": len(jobs), "projects": jobs}
+
+
+
+
+
 # trigger jenkins build based on job
 @app.post("/trigger", operation_id="trigger_jenkins_build", summary="Trigger Jenkins pipeline by job name")
 def trigger_jenkins_build(job: JenkinsJob):
@@ -47,7 +69,7 @@ def get_jenkins_status(job_name: str):
         raise HTTPException(status_code=r.status_code, detail=f"Error: {r.text}")
     
     data = r.json()
-    print(data) 
+    # print(data) 
     return {
         "job_name": job_name,
         "build_id": data.get("id", "unknown"),
@@ -72,29 +94,7 @@ def get_jenkins_logs(job_name: str):
 
 
 
-
-# list all jenkins project
-@app.get("/jobs", operation_id="list_jenkins_jobs", summary="List all Jenkins jobs")
-def list_jenkins_jobs():
-    """Lists all available Jenkins jobs (projects)."""
-    url = f"{JENKINS_URL}/api/json"
-    r = requests.get(url, auth=(JENKINS_USER, JENKINS_TOKEN))
-
-    if r.status_code != 200:
-        raise HTTPException(status_code=r.status_code, detail=f"Failed to fetch projects: {r.text}")
-    
-    data = r.json()
-    jobs = [
-        {"name": job["name"], "url": job["url"], "status_color": job.get("color")}
-        for job in data.get("jobs", [])
-    ]
-    return {"count": len(jobs), "projects": jobs}
-
-
-
 # get past n builds for a specific job
-
-
 @app.get(
     "/projects/{job_name}/builds",
     operation_id="get_pastn_job_builds",
