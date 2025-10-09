@@ -98,7 +98,7 @@ def get_jenkins_logs(job_name: str):
 @app.get("/projects/{job_name}/builds", operation_id="get_pastn_job_builds",summary="Fetch past N builds for a Jenkins job")
 def get_past_n_builds(
     job_name: str,
-    n: int = Query(5, description="Number of recent builds to fetch (default 5)")
+    n: int
 ):
     """Fetches past N builds for a given Jenkins job."""
     url = f"{JENKINS_URL}/job/{job_name}/api/json?tree=builds[number,result,url]{{0,{n}}}"
@@ -127,7 +127,7 @@ def get_past_n_builds(
 
 
 if __name__ == "__main__":
-    # Automatically expose these as MCP tools
+    
     mcp = FastApiMCP(
         app,
         include_operations=[
