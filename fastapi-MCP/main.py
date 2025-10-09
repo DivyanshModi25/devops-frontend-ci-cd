@@ -95,11 +95,7 @@ def get_jenkins_logs(job_name: str):
 
 
 # get past n builds for a specific job
-@app.get(
-    "/projects/{job_name}/builds",
-    operation_id="get_pastn_job_builds",
-    summary="Fetch past N builds for a Jenkins job",
-)
+@app.get("/projects/{job_name}/builds", operation_id="get_pastn_job_builds",summary="Fetch past N builds for a Jenkins job")
 def get_past_n_builds(
     job_name: str,
     n: int = Query(5, description="Number of recent builds to fetch (default 5)")
